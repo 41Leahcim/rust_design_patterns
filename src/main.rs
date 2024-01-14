@@ -1,24 +1,25 @@
-use std::fmt::Write as _;
+#[derive(Default)]
+pub struct Second(u64);
 
-pub fn long_say_hello(name: &str) -> String {
-    let mut result = "Hello ".to_owned();
-    result.push_str(name);
-    result.push('!');
-    result
+impl Second {
+    // Constructs a new instance.
+    // No self arguments == associated functions
+    // The new function is often expected
+    pub fn new(value: u64) -> Self {
+        Self(value)
+    }
+
+    pub fn value(&self) -> u64 {
+        self.0
+    }
 }
 
-pub fn format_say_hello(name: &str) -> String {
-    format!("Hello {name}!")
-}
+// Same as derive
+// Implementing Default (derived or like this), is expected and required for some std functionality
+/*impl Default for Second{
+    fn default() -> Self {
+        Self(0)
+    }
+}*/
 
-pub fn write_say_hello(name: &str) -> String {
-    let mut buffer = String::with_capacity(name.len());
-    write!(&mut buffer, "Hello {name}!").unwrap();
-    buffer
-}
-
-fn main() {
-    println!("{}", long_say_hello("Amy"));
-    println!("{}", format_say_hello("Amy"));
-    println!("{}", write_say_hello("Amy"));
-}
+fn main() {}
