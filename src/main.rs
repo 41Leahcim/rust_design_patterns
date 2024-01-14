@@ -1,25 +1,29 @@
-#[derive(Default)]
-pub struct Second(u64);
+use std::{path::PathBuf, time::Duration};
 
-impl Second {
-    // Constructs a new instance.
-    // No self arguments == associated functions
-    // The new function is often expected
-    pub fn new(value: u64) -> Self {
-        Self(value)
-    }
+#[derive(Debug, Default, PartialEq)]
+struct MyConfiguration {
+    // Defaults to None
+    output: Option<PathBuf>,
 
-    pub fn value(&self) -> u64 {
-        self.0
-    }
+    // Defaults to an empty vector
+    search_path: Vec<PathBuf>,
+
+    // Defaults to 0 time
+    timout: Duration,
+
+    // Defaults to false
+    check: bool,
 }
 
-// Same as derive
-// Implementing Default (derived or like this), is expected and required for some std functionality
-/*impl Default for Second{
-    fn default() -> Self {
-        Self(0)
-    }
-}*/
+fn main() {
+    let mut conf = MyConfiguration::default();
+    conf.check = true;
+    println!("Conf = {conf:#?}");
 
-fn main() {}
+    let conf1 = MyConfiguration {
+        check: true,
+        // Use the default values from MyConfiguration to initialize the rest
+        ..Default::default()
+    };
+    assert_eq!(conf, conf1);
+}
